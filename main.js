@@ -89,12 +89,17 @@ function aStar(startingTile, targetTile) {
 
 	do {
 		var currentTile = tileWithLowestFScore(openObj);
-		currentTile.tracks = true;
 		visited[String(currentTile.x)+String(currentTile.y)] = currentTile;
 		removeTile(openObj, currentTile);
 
 		if (currentTile.x == targetTile.x && currentTile.y == targetTile.y) {
 			console.log('FOUND HUMAN, YUM!')
+			var tile = currentTile;
+			do {
+				console.log('Backtracking: ', tile);
+				tile.parent.tracks = true;
+				tile = tile.parent;
+			} while(tile);
 			break;
 		}
 		
@@ -156,7 +161,6 @@ function aStar(startingTile, targetTile) {
 			if (south && south.walkable) adjacentTiles.push(south);
 		} catch (e) {
 		}
-		console.log('adjacentTiles: ', adjacentTiles);
 		return adjacentTiles;
 	}
 }
